@@ -1,0 +1,8 @@
+{
+  "TOKEN": "*secret*",
+  "YOUTUBE_API_KEY": "*secret*",
+  "SOUNDCLOUD_CLIENT_ID": "*secret*",
+  "MAX_PLAYLIST_SIZE": 10,
+  "PREFIX": "-",
+  "PRUNING": false
+}
