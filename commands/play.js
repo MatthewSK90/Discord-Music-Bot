@@ -1,9 +1,18 @@
 const { play } = require("../include/play");
-const { YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID } = require("../config.json");
 const ytdl = require("ytdl-core");
 const YouTubeAPI = require("simple-youtube-api");
-const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 const scdl = require("soundcloud-downloader");
+
+let YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID;
+try {
+  const config = require("../config.json");
+  YOUTUBE_API_KEY = config.YOUTUBE_API_KEY;
+  SOUNDCLOUD_CLIENT_ID = config.SOUNDCLOUD_CLIENT_ID;
+} catch (error) {
+  YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+  SOUNDCLOUD_CLIENT_ID = process.env.SOUNDCLOUD_CLIENT_ID;
+}
+const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 
 module.exports = {
   name: "play",
@@ -39,6 +48,8 @@ module.exports = {
     // Start the playlist if playlist url was provided
     if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
       return message.client.commands.get("playlist").execute(message, args);
+    } else if (scdl.isValidUrl(url) && url.includes("/sets/")) {
+      return message.client.commands.get("playlist").execute(message, args);
     }
 
     const queueConstruct = {
@@ -72,12 +83,11 @@ module.exports = {
         song = {
           title: trackInfo.title,
           url: trackInfo.permalink_url,
-          duration: trackInfo.duration / 1000
+          duration: Math.ceil(trackInfo.duration / 1000)
         };
       } catch (error) {
-        if (error.statusCode === 404)
-          return message.reply("Could not find that Soundcloud track.").catch(console.error);
-        return message.reply("There was an error playing that Soundcloud track.").catch(console.error);
+        console.error(error);
+        return message.reply(error.message).catch(console.error);
       }
     } else {
       try {
@@ -90,7 +100,7 @@ module.exports = {
         };
       } catch (error) {
         console.error(error);
-        return message.reply("No video was found with a matching title").catch(console.error);
+        return message.reply(error.message).catch(console.error);
       }
     }
 
