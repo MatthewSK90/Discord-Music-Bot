@@ -16,7 +16,7 @@ module.exports = {
       .setTitle("Now playing")
       .setDescription(`${song.title}\n${song.url}`)
       .setColor("#00b0f4")
-      .setAuthor("Bluetooth Speaker");
+      .setAuthor(message.client.user.username);
 
     if (song.duration > 0) {
       nowPlaying.addField(
