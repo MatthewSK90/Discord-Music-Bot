@@ -2,6 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "queue",
+  cooldown: 60,
   aliases: ["q"],
   description: "Show the music queue and now playing.",
   async execute(message) {
@@ -72,7 +73,7 @@ function generateQueueEmbed(message, queue) {
     const embed = new MessageEmbed()
       .setTitle("Song Queue\n")
       .setThumbnail(message.guild.iconURL())
-      .setColor("#F8AA2A")
+      .setColor("#00b0f4")
       .setDescription(`**Current Song - [${queue[0].title}](${queue[0].url})**\n\n${info}`)
       .setTimestamp();
     embeds.push(embed);
