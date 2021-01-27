@@ -1,7 +1,7 @@
 {
     "name": "Bluetooth Speaker",
     "description": "Discord Music Bot built with discord.js",
-    "repository": "https://github.com/eritislami/evobot",
+    "repository": "https://github.com/MatthewSK90/Discord-Music-Bot",
     "logo": "https://i.imgur.com/d0g9W96.jpg",
     "keywords": ["discord", "discordjs", "music", "bot"]
   }
